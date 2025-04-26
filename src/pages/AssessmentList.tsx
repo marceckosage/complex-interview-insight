@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import PageLayout from "@/components/PageLayout";
 import { Button } from "@/components/ui/button";
@@ -41,7 +40,6 @@ const AssessmentList = () => {
   }, []);
 
   const handleArchiveAssessment = (id: string) => {
-    // In a real app, this would call an API to archive the assessment
     setAssessments(prev => 
       prev.map(assessment => 
         assessment.id === id 
@@ -53,7 +51,6 @@ const AssessmentList = () => {
   };
 
   const handleUnarchiveAssessment = (id: string) => {
-    // In a real app, this would call an API to unarchive the assessment
     setAssessments(prev => 
       prev.map(assessment => 
         assessment.id === id 
@@ -139,10 +136,10 @@ const AssessmentList = () => {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
                       <DropdownMenuItem onClick={() => navigate(`/results/${assessment.id}`)}>
-                        <FileChart className="mr-2 h-4 w-4" /> View Results
+                        <FileHeart className="mr-2 h-4 w-4" /> View Results
                       </DropdownMenuItem>
                       <DropdownMenuItem onClick={() => navigate(`/clone-assessment/${assessment.id}`)}>
-                        <FileChart className="mr-2 h-4 w-4" /> Clone Assessment
+                        <FileHeart className="mr-2 h-4 w-4" /> Clone Assessment
                       </DropdownMenuItem>
                       <DropdownMenuItem onClick={() => handleArchiveAssessment(assessment.id)}>
                         <Archive className="mr-2 h-4 w-4" /> Archive

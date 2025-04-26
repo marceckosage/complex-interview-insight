@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import PageLayout from "@/components/PageLayout";
@@ -11,7 +10,6 @@ import VideoRecorder from "@/components/VideoRecorder";
 import { getAssessmentById, saveAssessmentResult } from "@/services/mockData";
 import { Assessment, UserAnswer } from "@/types/assessment";
 
-// Component for candidate to take a specific assessment
 const TakeAssessment = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -29,7 +27,6 @@ const TakeAssessment = () => {
     email: "candidate@example.com"
   });
   
-  // For storing video blobs temporarily
   const [videoBlobs, setVideoBlobs] = useState<{[key: string]: Blob}>({});
   
   useEffect(() => {
@@ -40,7 +37,6 @@ const TakeAssessment = () => {
           if (data) {
             setAssessment(data);
             
-            // Initialize answers array
             const initialAnswers = data.questions.map(q => ({
               questionId: q.id,
               selectedOptionIds: q.type === 'multiple-choice' ? [] : undefined,
@@ -50,9 +46,8 @@ const TakeAssessment = () => {
             
             setAnswers(initialAnswers);
             
-            // Set timer if time limit exists
             if (data.timeLimit) {
-              setTimeRemaining(data.timeLimit * 60); // Convert to seconds
+              setTimeRemaining(data.timeLimit * 60);
             }
           } else {
             setError("Assessment not found");
@@ -69,7 +64,6 @@ const TakeAssessment = () => {
     fetchAssessment();
   }, [id]);
   
-  // Handle timer countdown
   useEffect(() => {
     if (!timeRemaining) return;
     
@@ -120,13 +114,11 @@ const TakeAssessment = () => {
   };
   
   const handleVideoRecording = (questionId: string, blob: Blob) => {
-    // Store blob temporarily
     setVideoBlobs(prev => ({
       ...prev,
       [questionId]: blob
     }));
     
-    // Set a placeholder URL in answers
     setAnswers(prev => 
       prev.map(answer => 
         answer.questionId === questionId
@@ -151,7 +143,6 @@ const TakeAssessment = () => {
   const handleSubmit = async () => {
     if (!assessment) return;
     
-    // Basic validation
     const incompleteAnswers = answers.filter((answer, index) => {
       const question = assessment.questions[index];
       if (question.type === 'multiple-choice' && (!answer.selectedOptionIds || answer.selectedOptionIds.length === 0)) {
@@ -178,16 +169,12 @@ const TakeAssessment = () => {
     setIsSubmitting(true);
     
     try {
-      // In a real app, you would upload videos to storage and get URLs
-      // Here we'll just simulate that all went well
-      
       const result = await saveAssessmentResult({
         assessmentId: assessment.id,
         userId: "test-user-id",
         userName: candidateInfo.name,
         userEmail: candidateInfo.email,
-        answers,
-        submittedAt: new Date(),
+        answers
       });
       
       toast({
