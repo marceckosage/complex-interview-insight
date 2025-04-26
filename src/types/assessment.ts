@@ -15,6 +15,34 @@ export interface Question {
   options?: Option[];
   maxScore?: number;
   totalScore?: number; // Sum of all option scores
+  category?: string; // Added category field for grouping questions
+}
+
+export interface Rubric {
+  id: string;
+  name: string;
+  description?: string;
+  content: string;
+  criteria: RubricCriterion[];
+  createdBy: string;
+  createdAt: Date;
+  assessmentId?: string;
+}
+
+export interface RubricCriterion {
+  id: string;
+  name: string;
+  description: string;
+  maxScore: number;
+  weightPercentage?: number;
+}
+
+export interface AssessmentAnalytics {
+  categoryScores?: Record<string, number>;
+  categoryMaxScores?: Record<string, number>;
+  strengths?: string[];
+  weaknesses?: string[];
+  aiAnalysis?: string;
 }
 
 export interface Assessment {
@@ -27,6 +55,13 @@ export interface Assessment {
   createdBy: string;
   isArchived?: boolean;
   lastModified?: Date;
+  rubricId?: string;
+  rubric?: Rubric;
+  aiSettings?: {
+    apiKey?: string;
+    model?: string;
+    temperature?: number;
+  };
 }
 
 export interface UserAnswer {
@@ -48,6 +83,7 @@ export interface AssessmentResult {
   submittedAt: Date;
   gradedAt?: Date;
   gradedBy?: string;
+  analytics?: AssessmentAnalytics;
 }
 
 export interface ShareLink {
