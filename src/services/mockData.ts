@@ -156,6 +156,10 @@ let results: AssessmentResult[] = [
 
 let shareLinks: ShareLink[] = [];
 
+// Export mock data for direct access in components
+export const mockAssessments = assessments;
+export const mockResults = results;
+
 // CRUD operations
 
 // Assessments
@@ -237,6 +241,11 @@ export const submitAssessment = async (resultData: Omit<AssessmentResult, 'id' |
       resolve(newResult);
     }, 800);
   });
+};
+
+// Adding the missing saveAssessmentResult function
+export const saveAssessmentResult = async (resultData: Omit<AssessmentResult, 'id' | 'submittedAt'>): Promise<AssessmentResult> => {
+  return submitAssessment(resultData);
 };
 
 export const gradeAssessment = async (

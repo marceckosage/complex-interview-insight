@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/components/ui/use-toast";
-import { mockResults, mockAssessments } from "@/services/mockData";
+import { getResultById, getAssessmentById, mockResults, mockAssessments } from "@/services/mockData";
 import { Assessment, AssessmentResult, Question } from "@/types/assessment";
 
 const ResultReview = () => {

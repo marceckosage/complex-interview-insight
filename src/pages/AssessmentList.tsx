@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { getAssessments } from "@/services/mockData";
 import { Assessment } from "@/types/assessment";
 import { format } from "date-fns";
-import { Archive, Edit, Eye, FileChart } from "lucide-react";
+import { Archive, Edit, Eye, FileHeart } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { toast } from "@/components/ui/sonner";
