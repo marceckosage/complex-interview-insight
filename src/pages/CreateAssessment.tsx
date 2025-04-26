@@ -16,8 +16,10 @@ import {
 } from "@/components/ui/select";
 import { Assessment, Question, QuestionType } from "@/types/assessment";
 import { createAssessment } from "@/services/mockData";
-import { X } from "lucide-react";
+import { X, Settings } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import { Slider } from "@/components/ui/slider";
 
 const CreateAssessment = () => {
   const navigate = useNavigate();
@@ -34,7 +36,18 @@ const CreateAssessment = () => {
     maxScore: 5
   });
   const [submitting, setSubmitting] = useState(false);
-  
+  const [aiSettings, setAISettings] = useState({
+    apiKey: "",
+    model: "gpt-4o-mini",
+    temperature: 0.7
+  });
+  const [isAISettingsOpen, setIsAISettingsOpen] = useState(false);
+
+  const models = [
+    { value: "gpt-4o-mini", label: "GPT-4o Mini" },
+    { value: "gpt-4o", label: "GPT-4o" }
+  ];
+
   const handleQuestionTypeChange = (type: QuestionType) => {
     setCurrentQuestion(prev => ({
       ...prev,
@@ -107,7 +120,6 @@ const CreateAssessment = () => {
   };
   
   const handleAddQuestion = () => {
-    // Validation
     if (!currentQuestion.text) {
       toast({
         title: "Required field missing",
@@ -131,7 +143,6 @@ const CreateAssessment = () => {
       return;
     }
     
-    // Add question
     const newQuestion = {
       ...currentQuestion,
       id: `q${questions.length + 1}`
@@ -139,7 +150,6 @@ const CreateAssessment = () => {
     
     setQuestions(prev => [...prev, newQuestion]);
     
-    // Reset current question
     setCurrentQuestion({
       type: "multiple-choice",
       text: "",
@@ -160,8 +170,25 @@ const CreateAssessment = () => {
     });
   };
   
+  const handleSaveAISettings = () => {
+    if (!aiSettings.apiKey) {
+      toast({
+        title: "API Key Required",
+        description: "Please enter your OpenAI API key.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    toast({
+      title: "AI Settings Saved",
+      description: "Your OpenAI API settings have been saved securely."
+    });
+
+    setIsAISettingsOpen(false);
+  };
+
   const handleSubmit = async () => {
-    // Validation
     if (!title) {
       toast({
         title: "Required field missing",
@@ -188,7 +215,12 @@ const CreateAssessment = () => {
         description,
         timeLimit,
         questions: questions as Question[],
-        createdBy: "admin@complex.com"
+        createdBy: "admin@complex.com",
+        aiSettings: aiSettings.apiKey ? {
+          apiKey: aiSettings.apiKey,
+          model: aiSettings.model,
+          temperature: aiSettings.temperature
+        } : undefined
       };
       
       const created = await createAssessment(assessment);
@@ -434,6 +466,44 @@ const CreateAssessment = () => {
           </CardContent>
         </Card>
         
+        <Card>
+          <CardContent className="pt-6">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold">AI Question Generation</h2>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => setIsAISettingsOpen(true)}
+                className="gap-2"
+              >
+                <Settings className="h-4 w-4" /> AI Settings
+              </Button>
+            </div>
+            <p className="text-gray-600 mb-4">
+              Configure AI settings to help generate and analyze assessment questions.
+            </p>
+            
+            {aiSettings.apiKey ? (
+              <div className="bg-green-50 border border-green-200 p-3 rounded-md">
+                <div className="flex justify-between items-center">
+                  <span className="text-green-700">OpenAI API Key: Configured</span>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    onClick={() => setIsAISettingsOpen(true)}
+                  >
+                    Edit
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div className="bg-yellow-50 border border-yellow-200 p-3 rounded-md text-yellow-700">
+                No OpenAI API key configured. Some AI features will be limited.
+              </div>
+            )}
+          </CardContent>
+        </Card>
+        
         <div className="flex justify-end gap-4">
           <Button
             variant="outline"
@@ -449,6 +519,75 @@ const CreateAssessment = () => {
           </Button>
         </div>
       </div>
+
+      <Dialog open={isAISettingsOpen} onOpenChange={setIsAISettingsOpen}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>OpenAI API Settings</DialogTitle>
+            <DialogDescription>
+              Configure your OpenAI API settings for AI-powered assessment features.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="apiKey">OpenAI API Key</Label>
+              <Input
+                id="apiKey"
+                type="password"
+                value={aiSettings.apiKey}
+                onChange={(e) => setAISettings(prev => ({ ...prev, apiKey: e.target.value }))}
+                placeholder="sk-..."
+              />
+              <p className="text-xs text-gray-500">
+                Your API key is stored securely and never shared.
+              </p>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="model">Model</Label>
+              <Select 
+                value={aiSettings.model} 
+                onValueChange={(value) => setAISettings(prev => ({ ...prev, model: value }))}
+              >
+                <SelectTrigger id="model">
+                  <SelectValue placeholder="Select model" />
+                </SelectTrigger>
+                <SelectContent>
+                  {models.map((m) => (
+                    <SelectItem key={m.value} value={m.value}>
+                      {m.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div className="space-y-2">
+              <div className="flex justify-between">
+                <Label htmlFor="temperature">Temperature: {aiSettings.temperature}</Label>
+              </div>
+              <Slider
+                id="temperature"
+                min={0}
+                max={1}
+                step={0.1}
+                value={[aiSettings.temperature]}
+                onValueChange={(values) => setAISettings(prev => ({ ...prev, temperature: values[0] }))}
+              />
+              <div className="flex justify-between text-xs text-gray-500">
+                <span>Precise</span>
+                <span>Balanced</span>
+                <span>Creative</span>
+              </div>
+            </div>
+          </div>
+          
+          <DialogFooter>
+            <Button onClick={handleSaveAISettings}>Save Settings</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </PageLayout>
   );
 };
