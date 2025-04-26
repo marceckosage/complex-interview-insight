@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PageLayout from "@/components/PageLayout";
@@ -6,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 import { 
   Select, 
   SelectContent, 
@@ -66,11 +67,27 @@ const CreateAssessment = () => {
     }
   };
   
-  const handleOptionCorrectChange = (index: number) => {
+  const handleOptionScoreChange = (index: number, score: number) => {
     if (currentQuestion.options) {
-      const newOptions = [...currentQuestion.options].map((option, i) => ({
+      const newOptions = [...currentQuestion.options];
+      const validScore = Math.min(Math.max(0, score), 5); // Ensure score is between 0 and 5
+      newOptions[index] = { ...newOptions[index], score: validScore };
+      
+      // Update total score
+      const totalScore = newOptions.reduce((sum, opt) => sum + (opt.score || 0), 0);
+      setCurrentQuestion(prev => ({ 
+        ...prev, 
+        options: newOptions,
+        totalScore: totalScore
+      }));
+    }
+  };
+  
+  const handleOptionCorrectChange = (optionId: string) => {
+    if (currentQuestion.options) {
+      const newOptions = currentQuestion.options.map(option => ({
         ...option,
-        isCorrect: i === index
+        isCorrect: option.id === optionId
       }));
       setCurrentQuestion(prev => ({ ...prev, options: newOptions }));
     }
@@ -351,25 +368,37 @@ const CreateAssessment = () => {
                     <label className="block text-sm font-medium text-gray-700">
                       Options <span className="text-red-500">*</span>
                     </label>
-                    {currentQuestion.options?.map((option, index) => (
-                      <div key={index} className="flex items-center gap-3">
-                        <Input
-                          value={option.text}
-                          onChange={(e) => handleOptionTextChange(index, e.target.value)}
-                          placeholder={`Option ${index + 1}`}
-                          className="flex-grow"
-                        />
-                        <div className="flex items-center gap-2">
-                          <label className="flex items-center gap-2 cursor-pointer">
-                            <input
-                              type="radio"
-                              checked={option.isCorrect}
-                              onChange={() => handleOptionCorrectChange(index)}
-                              className="w-4 h-4 text-brand-purple"
-                            />
-                            <span className="text-sm">Correct</span>
-                          </label>
-                          
+                    <RadioGroup
+                      value={currentQuestion.options?.find(o => o.isCorrect)?.id}
+                      onValueChange={handleOptionCorrectChange}
+                    >
+                      {currentQuestion.options?.map((option, index) => (
+                        <div key={index} className="flex items-center gap-3 p-3 border rounded-md">
+                          <div className="flex-grow space-y-2">
+                            <div className="flex items-center gap-2">
+                              <RadioGroupItem value={option.id} id={`option-${index}`} />
+                              <Input
+                                value={option.text}
+                                onChange={(e) => handleOptionTextChange(index, e.target.value)}
+                                placeholder={`Option ${index + 1}`}
+                                className="flex-grow"
+                              />
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <Label htmlFor={`score-${index}`} className="text-sm text-gray-600">
+                                Score (0-5):
+                              </Label>
+                              <Input
+                                id={`score-${index}`}
+                                type="number"
+                                min="0"
+                                max="5"
+                                value={option.score || 0}
+                                onChange={(e) => handleOptionScoreChange(index, parseInt(e.target.value) || 0)}
+                                className="w-20"
+                              />
+                            </div>
+                          </div>
                           {currentQuestion.options && currentQuestion.options.length > 2 && (
                             <Button
                               variant="ghost"
@@ -380,15 +409,20 @@ const CreateAssessment = () => {
                             </Button>
                           )}
                         </div>
-                      </div>
-                    ))}
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={handleAddOption}
-                    >
-                      Add Option
-                    </Button>
+                      ))}
+                    </RadioGroup>
+                    <div className="flex justify-between items-center">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={handleAddOption}
+                      >
+                        Add Option
+                      </Button>
+                      <span className="text-sm text-gray-600">
+                        Total Score: {currentQuestion.totalScore || 0}
+                      </span>
+                    </div>
                   </div>
                 )}
                 

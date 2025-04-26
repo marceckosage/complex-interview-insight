@@ -1,10 +1,10 @@
-
 export type QuestionType = 'multiple-choice' | 'text' | 'video';
 
 export interface Option {
   id: string;
   text: string;
   isCorrect?: boolean;
+  score?: number; // Score value for this option (0-5)
 }
 
 export interface Question {
@@ -13,6 +13,7 @@ export interface Question {
   text: string;
   options?: Option[];
   maxScore?: number;
+  totalScore?: number; // Sum of all option scores
 }
 
 export interface Assessment {
