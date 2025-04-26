@@ -1,3 +1,4 @@
+
 export type QuestionType = 'multiple-choice' | 'text' | 'video';
 
 export interface Option {
@@ -24,6 +25,8 @@ export interface Assessment {
   questions: Question[];
   createdAt: Date;
   createdBy: string;
+  isArchived?: boolean;
+  lastModified?: Date;
 }
 
 export interface UserAnswer {
@@ -45,4 +48,23 @@ export interface AssessmentResult {
   submittedAt: Date;
   gradedAt?: Date;
   gradedBy?: string;
+}
+
+export interface ShareLink {
+  id: string;
+  assessmentId: string;
+  token: string;
+  expiresAt?: Date;
+  allowedDomains?: string[];
+  createdBy: string;
+  createdAt: Date;
+  isActive: boolean;
+}
+
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+  role: 'admin' | 'test-taker';
+  createdAt: Date;
 }

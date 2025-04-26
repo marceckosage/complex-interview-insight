@@ -7,6 +7,8 @@ import PageLayout from "@/components/PageLayout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { Edit, Share } from "lucide-react";
+import ShareAssessmentModal from "@/components/ShareAssessmentModal";
 
 const ViewAssessment = () => {
   const { id } = useParams<{ id: string }>();
@@ -14,6 +16,7 @@ const ViewAssessment = () => {
   const [assessment, setAssessment] = useState<Assessment | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchAssessment = async () => {
@@ -79,8 +82,16 @@ const ViewAssessment = () => {
           >
             View Results
           </Button>
-          <Button onClick={() => navigate(`/take-assessment/${assessment.id}`)}>
-            Start Assessment
+          <Button
+            variant="outline"
+            onClick={() => navigate(`/edit-assessment/${assessment.id}`)}
+          >
+            <Edit className="mr-2 h-4 w-4" />
+            Edit
+          </Button>
+          <Button onClick={() => setIsShareModalOpen(true)}>
+            <Share className="mr-2 h-4 w-4" />
+            Share
           </Button>
         </div>
       </div>
@@ -129,6 +140,11 @@ const ViewAssessment = () => {
                               (Correct Answer)
                             </span>
                           )}
+                          {option.score !== undefined && (
+                            <span className="ml-2 text-gray-500 text-xs">
+                              Score: {option.score}
+                            </span>
+                          )}
                         </div>
                       ))}
                     </div>
@@ -151,6 +167,13 @@ const ViewAssessment = () => {
           </div>
         </CardContent>
       </Card>
+      
+      <ShareAssessmentModal 
+        assessmentId={assessment.id}
+        assessmentTitle={assessment.title}
+        isOpen={isShareModalOpen}
+        onClose={() => setIsShareModalOpen(false)}
+      />
     </PageLayout>
   );
 };

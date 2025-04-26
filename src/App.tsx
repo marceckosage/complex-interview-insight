@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import AssessmentList from "./pages/AssessmentList";
 import CreateAssessment from "./pages/CreateAssessment";
+import EditAssessment from "./pages/EditAssessment";
 import ViewAssessment from "./pages/ViewAssessment";
 import TakeAssessment from "./pages/TakeAssessment";
 import AssessmentComplete from "./pages/AssessmentComplete";
@@ -27,6 +28,8 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/assessments" element={<AssessmentList />} />
           <Route path="/create-assessment" element={<CreateAssessment />} />
+          <Route path="/edit-assessment/:id" element={<EditAssessment />} />
+          <Route path="/clone-assessment/:id" element={<CreateAssessment />} />
           <Route path="/view-assessment/:id" element={<ViewAssessment />} />
           <Route path="/take-assessment" element={<TakeAssessment />} />
           <Route path="/take-assessment/:id" element={<TakeAssessment />} />

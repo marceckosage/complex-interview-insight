@@ -1,148 +1,298 @@
 
-import { Assessment, AssessmentResult } from "@/types/assessment";
+// This would be replaced by API calls to your backend in a real application
+import { Assessment, AssessmentResult, ShareLink } from "@/types/assessment";
 
-export const mockAssessments: Assessment[] = [
+// Mock data store
+let assessments: Assessment[] = [
   {
     id: "1",
     title: "Frontend Developer Assessment",
-    description: "Technical assessment for frontend developer candidates",
+    description: "Evaluate knowledge of HTML, CSS, JavaScript, and React",
     timeLimit: 45,
     questions: [
       {
         id: "q1",
         type: "multiple-choice",
-        text: "Which of the following is NOT a JavaScript framework or library?",
+        text: "Which of the following is NOT a valid CSS selector?",
         options: [
-          { id: "o1", text: "React", isCorrect: false },
-          { id: "o2", text: "Angular", isCorrect: false },
-          { id: "o3", text: "Laravel", isCorrect: true },
-          { id: "o4", text: "Vue", isCorrect: false },
+          { id: "1", text: "#header", isCorrect: false, score: 0 },
+          { id: "2", text: ".container", isCorrect: false, score: 0 },
+          { id: "3", text: "*main", isCorrect: true, score: 5 },
+          { id: "4", text: "[data-type]", isCorrect: false, score: 0 }
         ],
         maxScore: 5,
+        totalScore: 5
       },
       {
         id: "q2",
-        type: "text",
-        text: "Explain the difference between let, const, and var in JavaScript.",
-        maxScore: 10,
+        type: "multiple-choice",
+        text: "Which hook should be used to run side effects in a React component?",
+        options: [
+          { id: "1", text: "useState", isCorrect: false, score: 0 },
+          { id: "2", text: "useEffect", isCorrect: true, score: 5 },
+          { id: "3", text: "useContext", isCorrect: false, score: 0 },
+          { id: "4", text: "useReducer", isCorrect: false, score: 0 }
+        ],
+        maxScore: 5,
+        totalScore: 5
       },
       {
         id: "q3",
-        type: "video",
-        text: "Present a brief overview of a recent project you worked on and what technologies you used.",
-        maxScore: 15,
+        type: "text",
+        text: "Explain the concept of closures in JavaScript and provide a simple example.",
+        maxScore: 10
       },
+      {
+        id: "q4",
+        type: "video",
+        text: "Demonstrate how you would explain the box model in CSS to a junior developer.",
+        maxScore: 15
+      }
     ],
-    createdAt: new Date(2023, 5, 15),
-    createdBy: "admin@complex.com",
+    createdAt: new Date("2023-04-15"),
+    createdBy: "admin@complex.com"
   },
   {
     id: "2",
-    title: "Marketing Coordinator Interview",
-    description: "Assessment for marketing coordinator candidates",
-    timeLimit: 30,
+    title: "Backend Developer Assessment",
+    description: "Evaluate knowledge of databases, APIs, and server-side concepts",
+    timeLimit: 60,
     questions: [
       {
         id: "q1",
         type: "multiple-choice",
-        text: "Which of these is NOT a social media platform?",
+        text: "Which of the following is NOT a NoSQL database?",
         options: [
-          { id: "o1", text: "Instagram", isCorrect: false },
-          { id: "o2", text: "Twitter", isCorrect: false },
-          { id: "o3", text: "Mailchimp", isCorrect: true },
-          { id: "o4", text: "TikTok", isCorrect: false },
+          { id: "1", text: "MongoDB", isCorrect: false, score: 0 },
+          { id: "2", text: "Cassandra", isCorrect: false, score: 0 },
+          { id: "3", text: "PostgreSQL", isCorrect: true, score: 5 },
+          { id: "4", text: "Redis", isCorrect: false, score: 0 }
         ],
         maxScore: 5,
+        totalScore: 5
       },
       {
         id: "q2",
         type: "text",
-        text: "Describe a successful marketing campaign you've worked on and what metrics you used to measure its success.",
-        maxScore: 15,
-      },
+        text: "Explain the difference between REST and GraphQL APIs.",
+        maxScore: 10
+      }
     ],
-    createdAt: new Date(2023, 6, 22),
-    createdBy: "admin@complex.com",
+    createdAt: new Date("2023-05-20"),
+    createdBy: "admin@complex.com"
   },
+  {
+    id: "3",
+    title: "DevOps Assessment",
+    description: "Evaluate knowledge of CI/CD, containerization, and cloud services",
+    timeLimit: 40,
+    questions: [
+      {
+        id: "q1",
+        type: "multiple-choice",
+        text: "Which tool is primarily used for container orchestration?",
+        options: [
+          { id: "1", text: "Docker", isCorrect: false, score: 0 },
+          { id: "2", text: "Kubernetes", isCorrect: true, score: 5 },
+          { id: "3", text: "Jenkins", isCorrect: false, score: 0 },
+          { id: "4", text: "Ansible", isCorrect: false, score: 0 }
+        ],
+        maxScore: 5,
+        totalScore: 5
+      }
+    ],
+    createdAt: new Date("2023-06-10"),
+    createdBy: "admin@complex.com",
+    isArchived: true
+  }
 ];
 
-export const mockResults: AssessmentResult[] = [
+let results: AssessmentResult[] = [
   {
-    id: "r1",
+    id: "1",
     assessmentId: "1",
-    userId: "u1",
+    userId: "user1",
     userName: "John Doe",
-    userEmail: "john.doe@example.com",
+    userEmail: "john@example.com",
     answers: [
       {
         questionId: "q1",
-        selectedOptionIds: ["o2"],
+        selectedOptionIds: ["3"]
       },
       {
         questionId: "q2",
-        textAnswer: "Let and const are block-scoped, while var is function-scoped. Const creates a variable that cannot be reassigned, let allows reassignment, and var can be both reassigned and redeclared.",
+        selectedOptionIds: ["2"]
       },
       {
         questionId: "q3",
-        videoUrl: "/videos/sample-video-1.mp4",
-      },
+        textAnswer: "Closures are functions that have access to variables from their outer scope..."
+      }
     ],
-    score: 22,
-    feedback: "Good technical knowledge but could improve on communication skills.",
-    submittedAt: new Date(2023, 5, 18),
-    gradedAt: new Date(2023, 5, 20),
-    gradedBy: "admin@complex.com",
+    score: 17,
+    feedback: "Good understanding of core concepts. Could improve on JavaScript explanations.",
+    submittedAt: new Date("2023-04-18"),
+    gradedAt: new Date("2023-04-19"),
+    gradedBy: "admin@complex.com"
   },
+  {
+    id: "2",
+    assessmentId: "1",
+    userId: "user2",
+    userName: "Jane Smith",
+    userEmail: "jane@example.com",
+    answers: [
+      {
+        questionId: "q1",
+        selectedOptionIds: ["1"]
+      },
+      {
+        questionId: "q2",
+        selectedOptionIds: ["2"]
+      }
+    ],
+    submittedAt: new Date("2023-04-20")
+  }
 ];
 
-export const getAssessments = (): Promise<Assessment[]> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(mockAssessments);
-    }, 500);
+let shareLinks: ShareLink[] = [];
+
+// CRUD operations
+
+// Assessments
+export const getAssessments = async (): Promise<Assessment[]> => {
+  return new Promise(resolve => {
+    setTimeout(() => resolve([...assessments]), 500);
   });
 };
 
-export const getAssessmentById = (id: string): Promise<Assessment | undefined> => {
-  return new Promise((resolve) => {
+export const getAssessmentById = async (id: string): Promise<Assessment | null> => {
+  return new Promise(resolve => {
     setTimeout(() => {
-      resolve(mockAssessments.find(assessment => assessment.id === id));
+      const assessment = assessments.find(a => a.id === id) || null;
+      resolve(assessment);
     }, 300);
   });
 };
 
-export const getResultsByAssessmentId = (assessmentId: string): Promise<AssessmentResult[]> => {
-  return new Promise((resolve) => {
+export const createAssessment = async (assessmentData: Omit<Assessment, 'id' | 'createdAt'>): Promise<Assessment> => {
+  return new Promise(resolve => {
     setTimeout(() => {
-      resolve(mockResults.filter(result => result.assessmentId === assessmentId));
-    }, 300);
-  });
-};
-
-// In a real app, these functions would connect to a backend API
-export const saveAssessmentResult = (result: Omit<AssessmentResult, 'id'>): Promise<AssessmentResult> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const newResult = {
-        ...result,
-        id: `r${mockResults.length + 1}`,
+      const newAssessment: Assessment = {
+        ...assessmentData,
+        id: `${assessments.length + 1}`,
+        createdAt: new Date()
       };
-      mockResults.push(newResult as AssessmentResult);
-      resolve(newResult as AssessmentResult);
-    }, 500);
+      assessments.push(newAssessment);
+      resolve(newAssessment);
+    }, 800);
   });
 };
 
-export const createAssessment = (assessment: Omit<Assessment, 'id' | 'createdAt'>): Promise<Assessment> => {
-  return new Promise((resolve) => {
+export const updateAssessment = async (assessment: Assessment): Promise<Assessment> => {
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
-      const newAssessment = {
+      const index = assessments.findIndex(a => a.id === assessment.id);
+      if (index === -1) {
+        reject(new Error("Assessment not found"));
+        return;
+      }
+      
+      assessments[index] = {
         ...assessment,
-        id: `${mockAssessments.length + 1}`,
-        createdAt: new Date(),
+        lastModified: new Date()
       };
-      mockAssessments.push(newAssessment as Assessment);
-      resolve(newAssessment as Assessment);
+      resolve(assessments[index]);
+    }, 800);
+  });
+};
+
+// Results
+export const getResultsByAssessmentId = async (assessmentId: string): Promise<AssessmentResult[]> => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const filteredResults = results.filter(r => r.assessmentId === assessmentId);
+      resolve([...filteredResults]);
     }, 500);
+  });
+};
+
+export const getResultById = async (id: string): Promise<AssessmentResult | null> => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const result = results.find(r => r.id === id) || null;
+      resolve(result);
+    }, 300);
+  });
+};
+
+export const submitAssessment = async (resultData: Omit<AssessmentResult, 'id' | 'submittedAt'>): Promise<AssessmentResult> => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const newResult: AssessmentResult = {
+        ...resultData,
+        id: `${results.length + 1}`,
+        submittedAt: new Date()
+      };
+      results.push(newResult);
+      resolve(newResult);
+    }, 800);
+  });
+};
+
+export const gradeAssessment = async (
+  id: string, 
+  score: number, 
+  feedback: string, 
+  gradedBy: string
+): Promise<AssessmentResult> => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const index = results.findIndex(r => r.id === id);
+      if (index === -1) {
+        reject(new Error("Assessment result not found"));
+        return;
+      }
+      
+      results[index] = {
+        ...results[index],
+        score,
+        feedback,
+        gradedAt: new Date(),
+        gradedBy
+      };
+      resolve(results[index]);
+    }, 800);
+  });
+};
+
+// Share Links
+export const createShareLink = async (linkData: Omit<ShareLink, 'id' | 'createdAt'>): Promise<ShareLink> => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const newLink: ShareLink = {
+        ...linkData,
+        id: `share-${shareLinks.length + 1}`,
+        createdAt: new Date()
+      };
+      shareLinks.push(newLink);
+      resolve(newLink);
+    }, 500);
+  });
+};
+
+export const validateShareLink = async (
+  assessmentId: string, 
+  token: string
+): Promise<boolean> => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const link = shareLinks.find(
+        l => l.assessmentId === assessmentId && 
+             l.token === token && 
+             l.isActive &&
+             (!l.expiresAt || new Date() < l.expiresAt)
+      );
+      resolve(!!link);
+    }, 300);
   });
 };
