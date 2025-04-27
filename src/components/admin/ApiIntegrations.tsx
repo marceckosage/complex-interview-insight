@@ -10,7 +10,7 @@ import {
   Dialog, DialogContent, DialogDescription, 
   DialogFooter, DialogHeader, DialogTitle, DialogTrigger
 } from "@/components/ui/dialog";
-import { PlusCircle, Key, KeyRound, Eye, EyeOff, ApiIcon } from "lucide-react";
+import { PlusCircle, Key, KeyRound, Eye, EyeOff, BarChart } from "lucide-react";
 import { toast } from "sonner";
 
 const ApiIntegrations = () => {
@@ -125,7 +125,7 @@ const ApiIntegrations = () => {
                 <TableRow key={integration.id}>
                   <TableCell className="font-medium">
                     <div className="flex items-center gap-2">
-                      <ApiIcon className="h-4 w-4" />
+                      <BarChart className="h-4 w-4" />
                       {integration.name}
                     </div>
                   </TableCell>

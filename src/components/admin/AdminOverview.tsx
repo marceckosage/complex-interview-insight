@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ChartContainer } from "@/components/ui/chart";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { mockAssessments, mockResults } from "@/services/mockData";
-import { Chart } from "lucide-react";
+import { BarChartIcon } from "lucide-react";
 
 const AdminOverview = () => {
   // Calculate statistics
@@ -126,7 +126,7 @@ const AdminOverview = () => {
             {recentActivity.map((activity, index) => (
               <li key={index} className="flex items-start gap-4 border-b pb-4 last:border-0 last:pb-0">
                 <div className="bg-primary/10 p-2 rounded-full">
-                  <Chart className="h-5 w-5" />
+                  <BarChartIcon className="h-5 w-5" />
                 </div>
                 <div>
                   <p className="text-sm font-medium">{activity.action}</p>
