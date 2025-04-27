@@ -6,6 +6,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
 
+// Add these imports
+import Auth from "@/pages/Auth";
+import AuthCallback from "@/pages/AuthCallback";
+
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import AssessmentList from "./pages/AssessmentList";
@@ -17,8 +21,6 @@ import AssessmentComplete from "./pages/AssessmentComplete";
 import ResultsList from "./pages/ResultsList";
 import ResultReview from "./pages/ResultReview";
 import AdminDashboard from "./pages/AdminDashboard";
-import Auth from "./pages/Auth";
-import AuthCallback from "./pages/AuthCallback";
 
 const queryClient = new QueryClient();
 
