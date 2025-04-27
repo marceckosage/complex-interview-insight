@@ -1,5 +1,6 @@
 
 import { Assessment } from "@/types/assessment";
+import { toast } from "@/components/ui/use-toast";
 
 /**
  * Exports an assessment to CSV format and triggers a download
@@ -8,6 +9,12 @@ import { Assessment } from "@/types/assessment";
 export const exportAssessmentToCSV = async (assessment: Assessment): Promise<void> => {
   return new Promise((resolve, reject) => {
     try {
+      // Show loading toast on mobile
+      const loadingToast = toast({
+        title: "Preparing export",
+        description: "Getting your assessment data ready for download...",
+      });
+      
       // Simulate a delay for an API call
       setTimeout(() => {
         // Start with the headers
@@ -71,9 +78,20 @@ export const exportAssessmentToCSV = async (assessment: Assessment): Promise<voi
         link.click();
         document.body.removeChild(link);
         
+        // Close loading toast and show success toast
+        toast({
+          title: "Export complete",
+          description: "Your assessment has been exported successfully.",
+        });
+        
         resolve();
       }, 1000); // Simulate API delay
     } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Export failed",
+        description: "There was a problem exporting your assessment data."
+      });
       reject(error);
     }
   });
