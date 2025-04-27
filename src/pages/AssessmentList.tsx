@@ -101,14 +101,14 @@ const AssessmentList = () => {
 
   return (
     <PageLayout>
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-bold">Assessments</h1>
+          <h1 className="text-2xl md:text-3xl font-bold">Assessments</h1>
           <p className="text-gray-600 mt-1">Manage your assessment tests</p>
         </div>
         <Button 
           onClick={() => navigate("/create-assessment")}
-          className="hover-scale"
+          className="w-full md:w-auto py-3 md:py-2 text-base md:text-sm hover:bg-primary/90 transition-colors"
         >
           Create New Assessment
         </Button>
