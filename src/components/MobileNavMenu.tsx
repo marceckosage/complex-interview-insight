@@ -9,7 +9,7 @@ import {
   SheetTitle,
   SheetTrigger
 } from "@/components/ui/sheet";
-import { Menu, Sparkles, Lightning, HeartHandshake, Settings } from "lucide-react";
+import { Menu, Sparkles, Zap, HeartHandshake, Settings } from "lucide-react";
 
 export function MobileNavMenu() {
   const navigate = useNavigate();
@@ -48,7 +48,7 @@ export function MobileNavMenu() {
             className="justify-start text-left h-12 px-4"
             onClick={() => handleNavigation("/assessments")}
           >
-            <Lightning className="mr-3 h-5 w-5" />
+            <Zap className="mr-3 h-5 w-5" />
             Explore
           </Button>
           <Button

@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import PageLayout from "@/components/PageLayout";
-import { Sparkles, Combine, Lightning, HeartHandshake } from "lucide-react";
+import { Sparkles, Combine, Zap, HeartHandshake } from "lucide-react";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -56,7 +56,7 @@ const Index = () => {
           
           <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
             <div className="h-12 w-12 bg-brand-purple bg-opacity-20 rounded-lg flex items-center justify-center mb-4">
-              <Lightning className="text-brand-purple h-6 w-6" />
+              <Zap className="text-brand-purple h-6 w-6" />
             </div>
             <h3 className="text-xl font-semibold mb-2">Idea Ignition</h3>
             <p className="text-gray-600">
