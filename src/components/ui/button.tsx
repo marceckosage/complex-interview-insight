@@ -1,24 +1,19 @@
-
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
-
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:brightness-110 shadow-md hover:shadow-lg active:translate-y-0.5",
-        destructive:
-          "bg-destructive text-destructive-foreground hover:brightness-110 shadow-md hover:shadow-lg active:translate-y-0.5",
-        outline:
-          "border-2 border-input bg-background hover:bg-accent hover:text-accent-foreground shadow-md hover:shadow-lg active:translate-y-0.5",
-        secondary:
-          "bg-secondary text-secondary-foreground hover:brightness-95 shadow-md hover:shadow-lg active:translate-y-0.5",
-        ghost: "hover:bg-secondary hover:text-secondary-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+        default: "bg-brand-primary text-white hover:bg-brand-accent shadow-neumorphic hover:shadow-lg active:shadow-neumorphic-inset",
+        destructive: "bg-brand-alert text-white hover:brightness-110 shadow-neumorphic hover:shadow-lg active:shadow-neumorphic-inset",
+        outline: "border-2 border-brand-gray-300 bg-white hover:bg-brand-gray-100 shadow-neumorphic hover:shadow-lg active:shadow-neumorphic-inset",
+        secondary: "bg-brand-secondary text-white hover:brightness-95 shadow-neumorphic hover:shadow-lg active:shadow-neumorphic-inset",
+        ghost: "hover:bg-brand-gray-100 text-brand-gray-700 hover:text-brand-gray-900",
+        link: "text-brand-primary underline-offset-4 hover:underline",
       },
       size: {
         default: "h-10 px-4 py-2",

@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -13,10 +12,10 @@ export default {
   theme: {
     container: {
       center: true,
-      padding: '2rem',
+      padding: "2rem",
       screens: {
-        '2xl': '1400px'
-      }
+        "2xl": "1400px",
+      },
     },
     extend: {
       colors: {
@@ -64,13 +63,22 @@ export default {
           ring: 'hsl(var(--sidebar-ring))'
         },
         brand: {
-          red: '#E53935',
-          'dark-red': '#B71C1C',
-          green: '#43A047',
-          'dark-green': '#2E7D32',
-          gray: '#212121',
-          'light-gray': '#EEEEEE',
-          orange: '#FF9800'
+          primary: "#1A237E",
+          secondary: "#5C6BC0",
+          accent: "#3949AB",
+          process: "#00838F",
+          alert: "#C62828",
+          gray: {
+            100: "#F5F7FA",
+            200: "#E4E7EB",
+            300: "#CBD2D9",
+            400: "#9AA5B1",
+            500: "#7B8794",
+            600: "#616E7C",
+            700: "#52606D",
+            800: "#3E4C59",
+            900: "#323F4B",
+          }
         }
       },
       borderRadius: {
@@ -127,8 +135,8 @@ export default {
         inter: ['Inter', 'sans-serif'],
       },
       boxShadow: {
-        'neumorphic': '5px 5px 15px rgba(0, 0, 0, 0.1), -5px -5px 15px rgba(255, 255, 255, 0.8)',
-        'neumorphic-inset': 'inset 5px 5px 15px rgba(0, 0, 0, 0.1), inset -5px -5px 15px rgba(255, 255, 255, 0.8)',
+        'neumorphic': '5px 5px 10px rgba(0, 0, 0, 0.1), -5px -5px 10px rgba(255, 255, 255, 0.8)',
+        'neumorphic-inset': 'inset 2px 2px 5px rgba(0, 0, 0, 0.1), inset -2px -2px 5px rgba(255, 255, 255, 0.8)',
       }
     }
   },
