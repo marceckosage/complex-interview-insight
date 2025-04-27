@@ -12,6 +12,9 @@ export default function Footer() {
             <p className="text-sm text-gray-600">
               © {new Date().getFullYear()} ComplexAssess. All rights reserved.
             </p>
+            <p className="text-sm text-gray-500 mt-1 md:mt-0 md:ml-4">
+              V0.000.001
+            </p>
           </div>
           
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-8">

@@ -1,9 +1,12 @@
 
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { MobileNavMenu } from "@/components/MobileNavMenu";
+// Removed Switch, Label, and useMobileView imports
 
 export default function Header() {
+  // Removed isMobileView state management
   const navigate = useNavigate();
 
   return (
@@ -46,6 +49,7 @@ export default function Header() {
           >
             Admin
           </Button>
+          {/* Removed Mobile View Switch div */}
         </nav>
       </div>
     </header>
