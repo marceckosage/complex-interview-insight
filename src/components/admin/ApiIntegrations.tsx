@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -20,6 +19,8 @@ const ApiIntegrations = () => {
   const integrations = [
     { id: "1", name: "OpenAI", provider: "openai", isActive: true, lastUsed: "2 hours ago" },
     { id: "2", name: "Custom Endpoint", provider: "custom", isActive: false, lastUsed: "5 days ago" },
+    { id: "3", name: "Gemini", provider: "gemini", isActive: false, lastUsed: "Never" },
+    { id: "4", name: "Grok", provider: "grok", isActive: false, lastUsed: "Never" },
   ];
 
   const handleSaveIntegration = () => {
@@ -67,6 +68,8 @@ const ApiIntegrations = () => {
                     >
                       <option value="openai">OpenAI</option>
                       <option value="custom">Custom Endpoint</option>
+                      <option value="gemini">Gemini</option>
+                      <option value="grok">Grok</option>
                     </select>
                   </div>
                 </div>
@@ -77,7 +80,7 @@ const ApiIntegrations = () => {
                     <Input 
                       id="api-key" 
                       type={showApiKey ? "text" : "password"} 
-                      placeholder="sk-..." 
+                      placeholder="Enter your API key..." 
                       className="pr-10" 
                     />
                     <button 
