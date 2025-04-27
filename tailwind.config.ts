@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -63,15 +64,19 @@ export default {
           ring: 'hsl(var(--sidebar-ring))'
         },
         brand: {
-          purple: '#9b87f5',
-          'dark-purple': '#6E59A5',
-          'light-purple': '#D6BCFA',
+          red: '#E53935',
+          'dark-red': '#B71C1C',
+          green: '#43A047',
+          'dark-green': '#2E7D32',
+          gray: '#212121',
+          'light-gray': '#EEEEEE',
+          orange: '#FF9800'
         }
       },
       borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)'
+        lg: '0px',
+        md: '0px',
+        sm: '0px'
       },
       keyframes: {
         'accordion-down': {
@@ -120,6 +125,10 @@ export default {
       },
       fontFamily: {
         inter: ['Inter', 'sans-serif'],
+      },
+      boxShadow: {
+        'neumorphic': '5px 5px 15px rgba(0, 0, 0, 0.1), -5px -5px 15px rgba(255, 255, 255, 0.8)',
+        'neumorphic-inset': 'inset 5px 5px 15px rgba(0, 0, 0, 0.1), inset -5px -5px 15px rgba(255, 255, 255, 0.8)',
       }
     }
   },

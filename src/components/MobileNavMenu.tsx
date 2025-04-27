@@ -9,7 +9,7 @@ import {
   SheetTitle,
   SheetTrigger
 } from "@/components/ui/sheet";
-import { Menu, Sparkles, Zap, HeartHandshake, Settings } from "lucide-react";
+import { Menu, Calendar, Home, Inbox, Search, Settings } from "lucide-react";
 
 export function MobileNavMenu() {
   const navigate = useNavigate();
@@ -28,10 +28,10 @@ export function MobileNavMenu() {
           <span className="sr-only">Toggle menu</span>
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="w-[85vw] max-w-sm">
+      <SheetContent side="left" className="w-[85vw] max-w-sm border-r">
         <SheetHeader className="mb-6">
-          <SheetTitle className="text-2xl font-bold text-brand-purple">
-            Complex<span className="text-brand-dark-purple">Chemistry</span>
+          <SheetTitle className="text-2xl font-bold text-brand-gray">
+            Complex<span className="text-brand-dark-red">Chemistry</span>
           </SheetTitle>
         </SheetHeader>
         <nav className="flex flex-col space-y-4">
@@ -40,24 +40,24 @@ export function MobileNavMenu() {
             className="justify-start text-left h-12 px-4"
             onClick={() => handleNavigation("/")}
           >
-            <Sparkles className="mr-3 h-5 w-5" />
-            Home
+            <Home className="mr-3 h-5 w-5" />
+            <span>Home</span>
           </Button>
           <Button
             variant="ghost"
             className="justify-start text-left h-12 px-4"
             onClick={() => handleNavigation("/assessments")}
           >
-            <Zap className="mr-3 h-5 w-5" />
-            Assessments
+            <Calendar className="mr-3 h-5 w-5" />
+            <span>Assessments</span>
           </Button>
           <Button
             variant="ghost"
             className="justify-start text-left h-12 px-4"
             onClick={() => handleNavigation("/results")}
           >
-            <HeartHandshake className="mr-3 h-5 w-5" />
-            Insights
+            <Inbox className="mr-3 h-5 w-5" />
+            <span>Insights</span>
           </Button>
           <Button
             variant="ghost"
@@ -65,7 +65,7 @@ export function MobileNavMenu() {
             onClick={() => handleNavigation("/admin")}
           >
             <Settings className="mr-3 h-5 w-5" />
-            Admin
+            <span>Admin</span>
           </Button>
         </nav>
       </SheetContent>
