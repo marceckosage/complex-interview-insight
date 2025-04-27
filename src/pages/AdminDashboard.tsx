@@ -15,7 +15,7 @@ export default function AdminDashboard() {
   const navigate = useNavigate();
 
   return (
-    <PageLayout userType="admin" userName="Admin User">
+    <PageLayout>
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-bold tracking-tight">Admin Dashboard</h1>

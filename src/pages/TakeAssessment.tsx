@@ -197,7 +197,7 @@ const TakeAssessment = () => {
   
   if (loading) {
     return (
-      <PageLayout userType="candidate" userName={candidateInfo.name}>
+      <PageLayout>
         <div className="flex justify-center items-center h-64">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-purple"></div>
         </div>
@@ -207,7 +207,7 @@ const TakeAssessment = () => {
   
   if (error || !assessment) {
     return (
-      <PageLayout userType="candidate" userName={candidateInfo.name}>
+      <PageLayout>
         <div className="text-center py-16">
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">{error || "Assessment not found"}</h2>
           <Button onClick={() => navigate("/")}>
@@ -222,7 +222,7 @@ const TakeAssessment = () => {
   const currentAnswer = answers.find(a => a.questionId === currentQuestion.id);
   
   return (
-    <PageLayout userType="candidate" userName={candidateInfo.name}>
+    <PageLayout>
       <div className="mb-6">
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-2xl font-bold">{assessment.title}</h1>

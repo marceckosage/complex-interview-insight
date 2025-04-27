@@ -7,7 +7,7 @@ const AssessmentComplete = () => {
   const navigate = useNavigate();
   
   return (
-    <PageLayout userType="candidate" userName="Test Candidate">
+    <PageLayout>
       <div className="max-w-2xl mx-auto text-center py-16">
         <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-600">
