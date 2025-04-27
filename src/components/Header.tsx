@@ -2,12 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
-interface HeaderProps {
-  userType?: "admin" | "candidate";
-  userName?: string;
-}
-
-export default function Header({ userType = "admin", userName = "Admin User" }: HeaderProps) {
+export default function Header() {
   const navigate = useNavigate();
 
   return (
@@ -21,37 +16,26 @@ export default function Header({ userType = "admin", userName = "Admin User" }: 
             Complex<span className="text-brand-dark-purple">Assess</span>
           </h1>
         </div>
-        <div className="flex items-center gap-4">
-          {userType === "admin" ? (
-            <>
-              <Button 
-                variant="ghost" 
-                onClick={() => navigate("/assessments")}
-              >
-                Assessments
-              </Button>
-              <Button 
-                variant="ghost"
-                onClick={() => navigate("/results")}
-              >
-                Results
-              </Button>
-              <Button 
-                variant="ghost"
-                onClick={() => navigate("/admin")}
-              >
-                Admin
-              </Button>
-              <Button 
-                variant="outline"
-              >
-                {userName}
-              </Button>
-            </>
-          ) : (
-            <Button variant="outline">{userName}</Button>
-          )}
-        </div>
+        <nav className="flex items-center gap-4">
+          <Button 
+            variant="ghost" 
+            onClick={() => navigate("/assessments")}
+          >
+            Assessments
+          </Button>
+          <Button 
+            variant="ghost"
+            onClick={() => navigate("/results")}
+          >
+            Results
+          </Button>
+          <Button 
+            variant="ghost"
+            onClick={() => navigate("/admin")}
+          >
+            Admin
+          </Button>
+        </nav>
       </div>
     </header>
   );
