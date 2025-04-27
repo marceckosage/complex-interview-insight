@@ -1,14 +1,10 @@
-
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import PageLayout from "@/components/PageLayout";
 import { Sparkles, Combine, Zap, HeartHandshake } from "lucide-react";
-
 const Index = () => {
   const navigate = useNavigate();
-
-  return (
-    <PageLayout>
+  return <PageLayout>
       <div className="flex flex-col items-center justify-center min-h-[60vh] animate-fade-in">
         <div className="max-w-3xl mx-auto text-center">
           <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 md:mb-6 text-gray-900">
@@ -16,27 +12,14 @@ const Index = () => {
             <span className="text-brand-purple">Complex</span>
             <span className="text-brand-dark-purple">Chemistry</span>
           </h1>
-          <p className="text-lg md:text-xl text-gray-600 mb-8 md:mb-12 max-w-2xl mx-auto px-4">
-            Discover and connect with bold creative thinkers through meaningful assessments. 
-            We bring together risk-takers, innovators, and cultural catalysts to forge 
-            powerful creative partnerships.
-          </p>
+          <p className="text-lg md:text-xl text-gray-600 mb-8 md:mb-12 max-w-2xl mx-auto px-4">At Complex, we seek bold creative thinkers, generous collaborators and strive for approaches that look to make MEANING out of work.    Our pre-interview  assessments aim to  bring together risk-takers, innovators, and cultural catalyzers and build the perfect teams.  Don’t get it? It’s Complex.</p>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 max-w-lg mx-auto px-4">
-            <Button 
-              onClick={() => navigate("/assessments")}
-              size="lg"
-              className="h-14 md:h-16 text-lg hover-scale flex items-center justify-center gap-2"
-            >
+            <Button onClick={() => navigate("/assessments")} size="lg" className="h-14 md:h-16 text-lg hover-scale flex items-center justify-center gap-2">
               <Sparkles className="h-5 w-5" />
               Create Assessment
             </Button>
-            <Button 
-              onClick={() => navigate("/take-assessment")}
-              size="lg" 
-              variant="outline" 
-              className="h-14 md:h-16 text-lg hover-scale flex items-center justify-center gap-2"
-            >
+            <Button onClick={() => navigate("/take-assessment")} size="lg" variant="outline" className="h-14 md:h-16 text-lg hover-scale flex items-center justify-center gap-2">
               <HeartHandshake className="h-5 w-5" />
               Take Assessment
             </Button>
@@ -78,8 +61,6 @@ const Index = () => {
           </div>
         </div>
       </div>
-    </PageLayout>
-  );
+    </PageLayout>;
 };
-
 export default Index;
