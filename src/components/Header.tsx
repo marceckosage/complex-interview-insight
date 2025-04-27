@@ -14,7 +14,7 @@ export default function Header() {
             onClick={() => navigate("/")}
             className="text-xl md:text-2xl font-bold text-brand-purple cursor-pointer"
           >
-            Complex<span className="text-brand-dark-purple">Assess</span>
+            Complex<span className="text-brand-dark-purple">Chemistry</span>
           </h1>
         </div>
         
@@ -29,19 +29,19 @@ export default function Header() {
             variant="ghost" 
             onClick={() => navigate("/assessments")}
           >
-            Assessments
+            Explore
           </Button>
           <Button 
             variant="ghost"
             onClick={() => navigate("/results")}
           >
-            Results
+            Insights
           </Button>
           <Button 
             variant="ghost"
             onClick={() => navigate("/admin")}
           >
-            Admin
+            Studio
           </Button>
         </nav>
       </div>
