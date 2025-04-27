@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -16,6 +17,8 @@ import AssessmentComplete from "./pages/AssessmentComplete";
 import ResultsList from "./pages/ResultsList";
 import ResultReview from "./pages/ResultReview";
 import AdminDashboard from "./pages/AdminDashboard";
+import Auth from "./pages/Auth";
+import AuthCallback from "./pages/AuthCallback";
 
 const queryClient = new QueryClient();
 
