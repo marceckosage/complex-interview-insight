@@ -49,7 +49,7 @@ export function MobileNavMenu() {
             onClick={() => handleNavigation("/assessments")}
           >
             <Zap className="mr-3 h-5 w-5" />
-            Explore
+            Assessments
           </Button>
           <Button
             variant="ghost"
@@ -65,7 +65,7 @@ export function MobileNavMenu() {
             onClick={() => handleNavigation("/admin")}
           >
             <Settings className="mr-3 h-5 w-5" />
-            Studio
+            Admin
           </Button>
         </nav>
       </SheetContent>

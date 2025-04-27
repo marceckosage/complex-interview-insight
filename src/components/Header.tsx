@@ -29,7 +29,7 @@ export default function Header() {
             variant="ghost" 
             onClick={() => navigate("/assessments")}
           >
-            Explore
+            Assessments
           </Button>
           <Button 
             variant="ghost"
@@ -41,7 +41,7 @@ export default function Header() {
             variant="ghost"
             onClick={() => navigate("/admin")}
           >
-            Studio
+            Admin
           </Button>
         </nav>
       </div>

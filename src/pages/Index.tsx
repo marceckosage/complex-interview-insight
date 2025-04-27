@@ -17,8 +17,9 @@ const Index = () => {
             <span className="text-brand-dark-purple">Chemistry</span>
           </h1>
           <p className="text-lg md:text-xl text-gray-600 mb-8 md:mb-12 max-w-2xl mx-auto px-4">
-            Where bold culture-making voices converge, ideas ignite, and cultural materials 
-            become valuable as creators thrive and audiences rise. Let's make meaning together.
+            Discover and connect with bold creative thinkers through meaningful assessments. 
+            We bring together risk-takers, innovators, and cultural catalysts to forge 
+            powerful creative partnerships.
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 max-w-lg mx-auto px-4">
@@ -28,7 +29,7 @@ const Index = () => {
               className="h-14 md:h-16 text-lg hover-scale flex items-center justify-center gap-2"
             >
               <Sparkles className="h-5 w-5" />
-              Start Creating
+              Create Assessment
             </Button>
             <Button 
               onClick={() => navigate("/take-assessment")}
@@ -37,7 +38,7 @@ const Index = () => {
               className="h-14 md:h-16 text-lg hover-scale flex items-center justify-center gap-2"
             >
               <HeartHandshake className="h-5 w-5" />
-              Join Community
+              Take Assessment
             </Button>
           </div>
         </div>
@@ -47,10 +48,10 @@ const Index = () => {
             <div className="h-12 w-12 bg-brand-purple bg-opacity-20 rounded-lg flex items-center justify-center mb-4">
               <Combine className="text-brand-purple h-6 w-6" />
             </div>
-            <h3 className="text-xl font-semibold mb-2">Cultural Convergence</h3>
+            <h3 className="text-xl font-semibold mb-2">Creative Connection</h3>
             <p className="text-gray-600">
-              A vibrant space where diverse voices meet, share perspectives, and create 
-              meaningful cultural dialogues together.
+              Find and connect with exceptional creative talent who share your vision 
+              and cultural values through our innovative assessment platform.
             </p>
           </div>
           
@@ -58,10 +59,10 @@ const Index = () => {
             <div className="h-12 w-12 bg-brand-purple bg-opacity-20 rounded-lg flex items-center justify-center mb-4">
               <Zap className="text-brand-purple h-6 w-6" />
             </div>
-            <h3 className="text-xl font-semibold mb-2">Idea Ignition</h3>
+            <h3 className="text-xl font-semibold mb-2">Meaningful Assessment</h3>
             <p className="text-gray-600">
-              Watch your ideas spark and evolve as they interact with our community of 
-              passionate creators and cultural catalysts.
+              Our assessment process goes beyond skills to uncover shared values, creative 
+              alignment, and the potential for lasting collaborative relationships.
             </p>
           </div>
           
@@ -69,10 +70,10 @@ const Index = () => {
             <div className="h-12 w-12 bg-brand-purple bg-opacity-20 rounded-lg flex items-center justify-center mb-4">
               <HeartHandshake className="text-brand-purple h-6 w-6" />
             </div>
-            <h3 className="text-xl font-semibold mb-2">Value Creation</h3>
+            <h3 className="text-xl font-semibold mb-2">Cultural Alignment</h3>
             <p className="text-gray-600">
-              Transform cultural materials into valuable assets as we build meaningful 
-              connections between creators and audiences.
+              Discover creative partners who truly understand and share your cultural 
+              perspective, leading to more meaningful and impactful collaborations.
             </p>
           </div>
         </div>
