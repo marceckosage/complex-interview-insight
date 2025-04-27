@@ -1,9 +1,9 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "@/hooks/useAuth";
 
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
@@ -25,26 +25,29 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/assessments" element={<AssessmentList />} />
-          <Route path="/create-assessment" element={<CreateAssessment />} />
-          <Route path="/edit-assessment/:id" element={<EditAssessment />} />
-          <Route path="/clone-assessment/:id" element={<CreateAssessment />} />
-          <Route path="/view-assessment/:id" element={<ViewAssessment />} />
-          <Route path="/take-assessment" element={<TakeAssessment />} />
-          <Route path="/take-assessment/:id" element={<TakeAssessment />} />
-          <Route path="/assessment-complete" element={<AssessmentComplete />} />
-          <Route path="/results" element={<ResultsList />} />
-          <Route path="/results/:id" element={<ResultsList />} />
-          <Route path="/results/review/:id" element={<ResultReview />} />
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AuthProvider>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/assessments" element={<AssessmentList />} />
+            <Route path="/create-assessment" element={<CreateAssessment />} />
+            <Route path="/edit-assessment/:id" element={<EditAssessment />} />
+            <Route path="/clone-assessment/:id" element={<CreateAssessment />} />
+            <Route path="/view-assessment/:id" element={<ViewAssessment />} />
+            <Route path="/take-assessment" element={<TakeAssessment />} />
+            <Route path="/take-assessment/:id" element={<TakeAssessment />} />
+            <Route path="/assessment-complete" element={<AssessmentComplete />} />
+            <Route path="/results" element={<ResultsList />} />
+            <Route path="/results/:id" element={<ResultsList />} />
+            <Route path="/results/review/:id" element={<ResultReview />} />
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/auth/callback" element={<AuthCallback />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
 );
 
 export default App;
-
