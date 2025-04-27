@@ -1,9 +1,7 @@
-
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import PageLayout from "@/components/PageLayout";
 import { Calendar, Search, Settings } from "lucide-react";
-
 const Index = () => {
   const navigate = useNavigate();
   return <PageLayout>
@@ -14,27 +12,14 @@ const Index = () => {
             <span className="text-brand-primary">Complex</span>
             <span className="text-brand-accent">Chemistry</span>
           </h1>
-          <p className="text-lg md:text-xl text-brand-gray-600 mb-8 md:mb-12 max-w-2xl mx-auto px-4">
-            At Complex, we seek bold creative thinkers, generous collaborators and strive for approaches that look to make MEANING out of work. 
-            Our pre-interview assessments aim to bring together risk-takers, innovators, and cultural catalyzers and build the perfect teams. 
-            Don't get it? It's Complex.
-          </p>
+          <p className="text-lg md:text-xl text-brand-gray-600 mb-8 md:mb-12 max-w-2xl mx-auto px-4">At Complex, we seek bold creative thinkers, generous collaborators and strive for approaches that look to make MEANING out of our time and resources. Our pre-interview assessments aim to bring together like minded people, who share the value of wanting to be generative in their outputs and win together. Don't get it? It's Complex.</p>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 max-w-lg mx-auto px-4">
-            <Button 
-              onClick={() => navigate("/assessments")} 
-              size="lg" 
-              className="h-14 md:h-16 text-lg hover-scale shadow-neumorphic hover:shadow-lg active:shadow-neumorphic-inset"
-            >
+            <Button onClick={() => navigate("/assessments")} size="lg" className="h-14 md:h-16 text-lg hover-scale shadow-neumorphic hover:shadow-lg active:shadow-neumorphic-inset">
               <Calendar className="h-5 w-5" />
               Create Assessment
             </Button>
-            <Button 
-              onClick={() => navigate("/take-assessment")} 
-              size="lg" 
-              variant="outline" 
-              className="h-14 md:h-16 text-lg hover-scale border-brand-gray-300 text-brand-gray-700 hover:text-brand-gray-900"
-            >
+            <Button onClick={() => navigate("/take-assessment")} size="lg" variant="outline" className="h-14 md:h-16 text-lg hover-scale border-brand-gray-300 text-brand-gray-700 hover:text-brand-gray-900">
               <Search className="h-5 w-5" />
               Take Assessment
             </Button>
