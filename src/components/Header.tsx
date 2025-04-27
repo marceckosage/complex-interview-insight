@@ -7,12 +7,12 @@ export default function Header() {
   const navigate = useNavigate();
 
   return (
-    <header className="w-full bg-white border-b border-brand-gray-200 py-4 sticky top-0 z-20 shadow-neumorphic">
+    <header className="w-full bg-white border-b border-brand-gray-200 py-3 sticky top-0 z-20 shadow-neumorphic">
       <div className="container mx-auto flex justify-between items-center px-4 md:px-6">
         <div className="flex items-center">
           <h1 
             onClick={() => navigate("/")}
-            className="text-xl md:text-2xl font-bold cursor-pointer"
+            className="text-xl md:text-2xl font-bold cursor-pointer transition-colors hover:text-brand-primary"
           >
             Complex<span className="text-brand-primary">Chemistry</span>
           </h1>
@@ -24,25 +24,25 @@ export default function Header() {
         </div>
         
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-4">
+        <nav className="hidden md:flex items-center gap-2">
           <Button 
             variant="ghost" 
             onClick={() => navigate("/assessments")}
-            className="hover:bg-brand-gray-100"
+            className="hover:bg-brand-gray-100 transition-colors"
           >
             Assessments
           </Button>
           <Button 
             variant="ghost"
             onClick={() => navigate("/results")}
-            className="hover:bg-brand-gray-100"
+            className="hover:bg-brand-gray-100 transition-colors"
           >
             Insights
           </Button>
           <Button 
             variant="ghost"
             onClick={() => navigate("/admin")}
-            className="hover:bg-brand-gray-100"
+            className="hover:bg-brand-gray-100 font-medium transition-colors"
           >
             Admin
           </Button>
