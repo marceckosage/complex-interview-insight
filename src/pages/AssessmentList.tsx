@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import PageLayout from "@/components/PageLayout";
 import { Button } from "@/components/ui/button";
@@ -10,17 +11,22 @@ import {
   CardTitle
 } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
-import { getAssessments } from "@/services/mockData";
+import { getAssessments, deleteAssessment } from "@/services/mockData";
 import { Assessment } from "@/types/assessment";
 import { format } from "date-fns";
-import { Archive, Edit, Eye, FileHeart } from "lucide-react";
+import { Archive, Download, Edit, Eye, FileHeart, Trash2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { toast } from "@/components/ui/sonner";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import { exportAssessmentToCSV } from "@/utils/exportUtils";
 
 const AssessmentList = () => {
   const [assessments, setAssessments] = useState<Assessment[]>([]);
   const [loading, setLoading] = useState(true);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [assessmentToDelete, setAssessmentToDelete] = useState<string | null>(null);
+  const [exportLoading, setExportLoading] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -59,6 +65,35 @@ const AssessmentList = () => {
       )
     );
     toast.success("Assessment restored successfully");
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!assessmentToDelete) return;
+    
+    try {
+      await deleteAssessment(assessmentToDelete);
+      setAssessments(prev => prev.filter(assessment => assessment.id !== assessmentToDelete));
+      toast.success("Assessment permanently deleted");
+    } catch (error) {
+      console.error("Error deleting assessment:", error);
+      toast.error("Failed to delete assessment");
+    } finally {
+      setDeleteDialogOpen(false);
+      setAssessmentToDelete(null);
+    }
+  };
+  
+  const handleExportToCSV = async (assessment: Assessment) => {
+    setExportLoading(assessment.id);
+    try {
+      await exportAssessmentToCSV(assessment);
+      toast.success("Assessment exported successfully");
+    } catch (error) {
+      console.error("Error exporting assessment:", error);
+      toast.error("Failed to export assessment");
+    } finally {
+      setExportLoading(null);
+    }
   };
 
   const activeAssessments = assessments.filter(a => !a.isArchived);
@@ -144,6 +179,19 @@ const AssessmentList = () => {
                       <DropdownMenuItem onClick={() => handleArchiveAssessment(assessment.id)}>
                         <Archive className="mr-2 h-4 w-4" /> Archive
                       </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleExportToCSV(assessment)}>
+                        <Download className="mr-2 h-4 w-4" /> 
+                        {exportLoading === assessment.id ? "Exporting..." : "Export as CSV"}
+                      </DropdownMenuItem>
+                      <DropdownMenuItem 
+                        className="text-red-600 focus:text-red-600" 
+                        onClick={() => {
+                          setAssessmentToDelete(assessment.id);
+                          setDeleteDialogOpen(true);
+                        }}
+                      >
+                        <Trash2 className="mr-2 h-4 w-4" /> Delete
+                      </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </CardFooter>
@@ -189,13 +237,34 @@ const AssessmentList = () => {
                       >
                         <Eye className="mr-1 h-4 w-4" /> View
                       </Button>
-                      <Button 
-                        variant="ghost" 
-                        size="sm"
-                        onClick={() => handleUnarchiveAssessment(assessment.id)}
-                      >
-                        Restore
-                      </Button>
+                      <div className="flex gap-2">
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => handleUnarchiveAssessment(assessment.id)}
+                        >
+                          Restore
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => handleExportToCSV(assessment)}
+                          className="ml-2"
+                        >
+                          <Download className="h-4 w-4" />
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => {
+                            setAssessmentToDelete(assessment.id);
+                            setDeleteDialogOpen(true);
+                          }}
+                          className="text-red-600 hover:text-red-800 hover:bg-red-50"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </CardFooter>
                   </Card>
                 ))}
@@ -204,6 +273,30 @@ const AssessmentList = () => {
           )}
         </>
       )}
+      
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-red-600">
+              Delete Assessment
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete this assessment
+              and all of its data including questions, results, and analytics.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={handleDeleteConfirm}
+              className="bg-red-600 hover:bg-red-700 text-white"
+            >
+              Delete permanently
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </PageLayout>
   );
 };

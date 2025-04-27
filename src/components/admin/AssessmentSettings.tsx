@@ -1,171 +1,278 @@
-import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import { Slider } from "@/components/ui/slider";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { PlusCircle, Settings2 } from "lucide-react";
-import { toast } from "sonner";
+import { getAssessments, deleteAssessment } from "@/services/mockData";
+import { exportAssessmentToCSV } from "@/utils/exportUtils";
+import { Assessment } from "@/types/assessment";
+import { Download, Trash2, Archive } from "lucide-react";
+import { format } from "date-fns";
+import { useNavigate } from "react-router-dom";
+import { toast } from "@/components/ui/sonner";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 
 const AssessmentSettings = () => {
-  const [defaultTimeLimit, setDefaultTimeLimit] = useState(45);
+  const [tab, setTab] = useState("general");
+  const [assessments, setAssessments] = useState<Assessment[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [assessmentToDelete, setAssessmentToDelete] = useState<string | null>(null);
+  const [exportLoading, setExportLoading] = useState<string | null>(null);
+  const navigate = useNavigate();
   
-  const handleSave = () => {
-    toast.success("Assessment settings saved successfully!");
+  useEffect(() => {
+    const fetchAssessments = async () => {
+      try {
+        const data = await getAssessments();
+        setAssessments(data);
+      } catch (error) {
+        console.error("Error fetching assessments:", error);
+        toast.error("Failed to load assessments");
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchAssessments();
+  }, []);
+  
+  const handleUnarchiveAssessment = (id: string) => {
+    setAssessments(prev => 
+      prev.map(assessment => 
+        assessment.id === id 
+          ? { ...assessment, isArchived: false } 
+          : assessment
+      )
+    );
+    toast.success("Assessment restored successfully");
   };
-
-  const categories = [
-    { id: "1", name: "Frontend Development", numQuestions: 12 },
-    { id: "2", name: "Backend Development", numQuestions: 8 },
-    { id: "3", name: "DevOps", numQuestions: 5 },
-    { id: "4", name: "UI/UX Design", numQuestions: 7 },
-  ];
-
-  const rubricTemplates = [
-    { id: "1", name: "Technical Interview", criteria: 5 },
-    { id: "2", name: "Code Quality Review", criteria: 4 },
-    { id: "3", name: "Design Evaluation", criteria: 6 },
-  ];
-
+  
+  const handleDeleteConfirm = async () => {
+    if (!assessmentToDelete) return;
+    
+    try {
+      await deleteAssessment(assessmentToDelete);
+      setAssessments(prev => prev.filter(assessment => assessment.id !== assessmentToDelete));
+      toast.success("Assessment permanently deleted");
+    } catch (error) {
+      console.error("Error deleting assessment:", error);
+      toast.error("Failed to delete assessment");
+    } finally {
+      setDeleteDialogOpen(false);
+      setAssessmentToDelete(null);
+    }
+  };
+  
+  const handleExportToCSV = async (assessment: Assessment) => {
+    setExportLoading(assessment.id);
+    try {
+      await exportAssessmentToCSV(assessment);
+      toast.success("Assessment exported successfully");
+    } catch (error) {
+      console.error("Error exporting assessment:", error);
+      toast.error("Failed to export assessment");
+    } finally {
+      setExportLoading(null);
+    }
+  };
+  
+  const archivedAssessments = assessments.filter(a => a.isArchived);
+  
   return (
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>Default Assessment Settings</CardTitle>
-          <CardDescription>Configure the default settings for new assessments</CardDescription>
+          <CardTitle>Assessment Settings</CardTitle>
+          <CardDescription>
+            Configure settings for your assessments and manage archived content
+          </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid gap-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="default-time-limit" className="text-right">Default Time Limit</Label>
-              <div className="col-span-3 flex items-center gap-4">
-                <Slider 
-                  id="default-time-limit"
-                  min={5} 
-                  max={180} 
-                  step={5} 
-                  defaultValue={[defaultTimeLimit]} 
-                  onValueChange={(values) => setDefaultTimeLimit(values[0])}
-                  className="flex-1 max-w-xs" 
-                />
-                <span className="w-12 text-center">{defaultTimeLimit} min</span>
-              </div>
-            </div>
+        <CardContent>
+          <Tabs
+            value={tab}
+            onValueChange={setTab}
+            className="space-y-4"
+          >
+            <TabsList>
+              <TabsTrigger value="general">General</TabsTrigger>
+              <TabsTrigger value="defaults">Default Settings</TabsTrigger>
+              <TabsTrigger value="archive">Archive Management</TabsTrigger>
+            </TabsList>
             
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="default-ai-model" className="text-right">Default AI Model</Label>
-              <div className="col-span-3 max-w-xs">
-                <Select defaultValue="gpt-4o">
-                  <SelectTrigger id="default-ai-model">
-                    <SelectValue placeholder="Select model" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="gpt-4o">GPT-4o</SelectItem>
-                    <SelectItem value="gpt-4o-mini">GPT-4o Mini</SelectItem>
-                    <SelectItem value="gpt-3.5-turbo">GPT-3.5 Turbo</SelectItem>
-                  </SelectContent>
-                </Select>
+            <TabsContent value="general" className="space-y-4">
+              <div className="space-y-2">
+                <div className="grid gap-2">
+                  <Label htmlFor="assessment-naming">Assessment Naming</Label>
+                  <Input
+                    id="assessment-naming"
+                    placeholder="Default naming convention"
+                    defaultValue="[Department] - [Role] Assessment"
+                  />
+                  <p className="text-sm text-gray-500">
+                    Define the default naming convention for new assessments
+                  </p>
+                </div>
               </div>
-            </div>
+              
+              <div className="space-y-2">
+                <div className="grid gap-2">
+                  <Label htmlFor="question-limit">Maximum Questions</Label>
+                  <Input
+                    id="question-limit"
+                    type="number"
+                    placeholder="50"
+                    defaultValue="50"
+                  />
+                  <p className="text-sm text-gray-500">
+                    Set the maximum number of questions allowed in a single assessment
+                  </p>
+                </div>
+              </div>
+            </TabsContent>
             
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="auto-grading" className="text-right">Enable Auto-grading</Label>
-              <div className="col-span-3">
-                <Switch id="auto-grading" defaultChecked />
+            <TabsContent value="defaults" className="space-y-4">
+              <div className="space-y-2">
+                <div className="grid gap-2">
+                  <Label htmlFor="default-time-limit">Default Time Limit (minutes)</Label>
+                  <Input
+                    id="default-time-limit"
+                    type="number"
+                    placeholder="60"
+                    defaultValue="60"
+                  />
+                </div>
               </div>
-            </div>
+              
+              <div className="space-y-2">
+                <div className="grid gap-2">
+                  <Label htmlFor="default-passing-score">Default Passing Score (%)</Label>
+                  <Input
+                    id="default-passing-score"
+                    type="number"
+                    placeholder="70"
+                    defaultValue="70"
+                  />
+                </div>
+              </div>
+            </TabsContent>
             
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="analytics" className="text-right">Enable AI Analytics</Label>
-              <div className="col-span-3">
-                <Switch id="analytics" defaultChecked />
+            <TabsContent value="archive" className="space-y-4">
+              <div>
+                <h3 className="text-lg font-medium mb-4">Archived Assessments</h3>
+                
+                {loading ? (
+                  <div className="flex justify-center items-center h-32">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-purple"></div>
+                  </div>
+                ) : archivedAssessments.length === 0 ? (
+                  <div className="bg-gray-50 rounded-lg p-6 text-center">
+                    <p className="text-gray-600">No archived assessments found</p>
+                  </div>
+                ) : (
+                  <div className="border rounded-md">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Title</TableHead>
+                          <TableHead>Created Date</TableHead>
+                          <TableHead>Questions</TableHead>
+                          <TableHead className="text-right">Actions</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {archivedAssessments.map((assessment) => (
+                          <TableRow key={assessment.id}>
+                            <TableCell className="font-medium">{assessment.title}</TableCell>
+                            <TableCell>{format(new Date(assessment.createdAt), 'MMM d, yyyy')}</TableCell>
+                            <TableCell>{assessment.questions.length}</TableCell>
+                            <TableCell className="text-right">
+                              <div className="flex justify-end gap-2">
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => handleUnarchiveAssessment(assessment.id)}
+                                >
+                                  <Archive className="h-4 w-4 mr-1" /> Restore
+                                </Button>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => handleExportToCSV(assessment)}
+                                  disabled={exportLoading === assessment.id}
+                                >
+                                  <Download className="h-4 w-4" />
+                                </Button>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => {
+                                    setAssessmentToDelete(assessment.id);
+                                    setDeleteDialogOpen(true);
+                                  }}
+                                  className="text-red-600 hover:text-red-800 hover:bg-red-50"
+                                >
+                                  <Trash2 className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+                )}
+                
+                <div className="mt-6">
+                  <h4 className="font-medium mb-2">Archive Settings</h4>
+                  <div className="space-y-4">
+                    <div className="grid gap-2">
+                      <Label htmlFor="auto-archive">Auto Archive Period (days)</Label>
+                      <Input
+                        id="auto-archive"
+                        type="number"
+                        placeholder="365"
+                        defaultValue="365"
+                      />
+                      <p className="text-sm text-gray-500">
+                        Assessments will be automatically archived after this many days of inactivity
+                      </p>
+                    </div>
+                    <Button>Save Archive Settings</Button>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            </TabsContent>
+          </Tabs>
         </CardContent>
-        <CardFooter className="flex justify-end">
-          <Button onClick={handleSave}>Save Default Settings</Button>
-        </CardFooter>
       </Card>
       
-      <div className="grid gap-6 md:grid-cols-2">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between">
-            <div>
-              <CardTitle>Question Categories</CardTitle>
-              <CardDescription>Manage question categories for organization</CardDescription>
-            </div>
-            <Button variant="outline" size="sm">
-              <PlusCircle className="mr-2 h-4 w-4" />
-              Add Category
-            </Button>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Category Name</TableHead>
-                  <TableHead className="text-right">Questions</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {categories.map((category) => (
-                  <TableRow key={category.id}>
-                    <TableCell className="font-medium">{category.name}</TableCell>
-                    <TableCell className="text-right">{category.numQuestions}</TableCell>
-                    <TableCell className="text-right">
-                      <Button variant="ghost" size="icon">
-                        <Settings2 className="h-4 w-4" />
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between">
-            <div>
-              <CardTitle>Rubric Templates</CardTitle>
-              <CardDescription>Manage reusable rubric templates</CardDescription>
-            </div>
-            <Button variant="outline" size="sm">
-              <PlusCircle className="mr-2 h-4 w-4" />
-              Add Template
-            </Button>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Template Name</TableHead>
-                  <TableHead className="text-right">Criteria</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {rubricTemplates.map((template) => (
-                  <TableRow key={template.id}>
-                    <TableCell className="font-medium">{template.name}</TableCell>
-                    <TableCell className="text-right">{template.criteria}</TableCell>
-                    <TableCell className="text-right">
-                      <Button variant="ghost" size="icon">
-                        <Settings2 className="h-4 w-4" />
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
-      </div>
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-red-600">
+              Delete Assessment Permanently
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete this assessment
+              and all of its data including questions, results, and analytics.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={handleDeleteConfirm}
+              className="bg-red-600 hover:bg-red-700 text-white"
+            >
+              Delete permanently
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

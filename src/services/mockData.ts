@@ -210,6 +210,26 @@ export const updateAssessment = async (assessment: Assessment): Promise<Assessme
   });
 };
 
+// Add the new deleteAssessment function
+export const deleteAssessment = async (id: string): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const initialLength = assessments.length;
+      assessments = assessments.filter(a => a.id !== id);
+      
+      // Also remove any results associated with this assessment
+      results = results.filter(r => r.assessmentId !== id);
+      
+      if (assessments.length === initialLength) {
+        reject(new Error("Assessment not found"));
+        return;
+      }
+      
+      resolve();
+    }, 800);
+  });
+};
+
 // Results
 export const getResultsByAssessmentId = async (assessmentId: string): Promise<AssessmentResult[]> => {
   return new Promise(resolve => {
