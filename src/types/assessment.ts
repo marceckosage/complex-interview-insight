@@ -62,13 +62,7 @@ export interface Assessment {
     model?: string;
     temperature?: number;
   };
-}
-
-export interface UserAnswer {
-  questionId: string;
-  selectedOptionIds?: string[]; // For multiple choice
-  textAnswer?: string; // For text answers
-  videoUrl?: string; // For video recordings
+  teamAccess?: string[]; // User IDs that have access to this assessment
 }
 
 export interface AssessmentResult {
@@ -86,6 +80,13 @@ export interface AssessmentResult {
   analytics?: AssessmentAnalytics;
 }
 
+export interface UserAnswer {
+  questionId: string;
+  selectedOptionIds?: string[]; // For multiple choice
+  textAnswer?: string; // For text answers
+  videoUrl?: string; // For video recordings
+}
+
 export interface ShareLink {
   id: string;
   assessmentId: string;
@@ -101,6 +102,52 @@ export interface User {
   id: string;
   email: string;
   name: string;
-  role: 'admin' | 'test-taker';
+  role: 'admin' | 'reviewer' | 'creator' | 'test-taker';
   createdAt: Date;
+  teams?: string[]; // Team IDs the user belongs to
+}
+
+export interface Team {
+  id: string;
+  name: string;
+  description?: string;
+  createdBy: string;
+  createdAt: Date;
+  members: TeamMember[];
+}
+
+export interface TeamMember {
+  userId: string;
+  role: 'admin' | 'member';
+  invitedAt: Date;
+  joinedAt?: Date;
+}
+
+export interface OrganizationSettings {
+  id: string;
+  name: string;
+  logo?: string;
+  primaryColor?: string;
+  secondaryColor?: string;
+  defaultAssessmentSettings?: {
+    timeLimit?: number;
+    aiModel?: string;
+    aiTemperature?: number;
+  };
+  emailTemplates?: {
+    invitation?: string;
+    assessmentInvitation?: string;
+    results?: string;
+  };
+}
+
+export interface ApiIntegration {
+  id: string;
+  name: string;
+  provider: 'openai' | 'custom';
+  apiKey?: string;
+  endpointUrl?: string;
+  isActive: boolean;
+  createdAt: Date;
+  lastUsed?: Date;
 }

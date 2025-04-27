@@ -37,6 +37,12 @@ export default function Header({ userType = "admin", userName = "Admin User" }: 
                 Results
               </Button>
               <Button 
+                variant="ghost"
+                onClick={() => navigate("/admin")}
+              >
+                Admin
+              </Button>
+              <Button 
                 variant="outline"
               >
                 {userName}

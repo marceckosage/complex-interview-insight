@@ -15,6 +15,7 @@ import TakeAssessment from "./pages/TakeAssessment";
 import AssessmentComplete from "./pages/AssessmentComplete";
 import ResultsList from "./pages/ResultsList";
 import ResultReview from "./pages/ResultReview";
+import AdminDashboard from "./pages/AdminDashboard";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,7 @@ const App = () => (
           <Route path="/results" element={<ResultsList />} />
           <Route path="/results/:id" element={<ResultsList />} />
           <Route path="/results/review/:id" element={<ResultReview />} />
+          <Route path="/admin" element={<AdminDashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
@@ -45,3 +47,4 @@ const App = () => (
 );
 
 export default App;
+
